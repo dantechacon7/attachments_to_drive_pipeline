@@ -2,7 +2,7 @@
 
 ## Visão geral
 
-O pipeline realiza a ingestão e organização de arquivos anexados em sistemas externos.
+O pipeline realiza a ingestão e organização de arquivos anexados em sistemas externos, transformando dados dispersos em uma estrutura centralizada e auditável no Google Drive.
 
 ---
 
@@ -10,24 +10,24 @@ O pipeline realiza a ingestão e organização de arquivos anexados em sistemas 
 
 1. **Busca (API)**
 
-   * Query configurável (ex: JQL)
-   * Retorna tickets com anexos
+   * Query configurável via propriedades (ex: JQL ou equivalente)
+   * Retorna registros (ex: tickets) que possuem anexos
 
 2. **Processamento**
 
-   * Extração de metadados
-   * Identificação de entidade (ex: CPF, ID, cliente)
-   * Consolidação de anexos
+   * Extração de metadados do registro
+   * Identificação da entidade a partir de campo configurável (ex: CPF, client_id, account_id)
+   * Consolidação de anexos em uma única lista
 
 3. **Deduplicação**
 
    * Controle por ID único do anexo
-   * Evita downloads repetidos
+   * Garante que cada arquivo seja processado apenas uma vez
 
 4. **Armazenamento**
 
-   * Criação de pastas dinâmicas
-   * Upload para Google Drive
+   * Criação de pastas dinâmicas com base na entidade
+   * Upload dos arquivos no Google Drive
 
 ---
 
@@ -37,9 +37,9 @@ O pipeline realiza a ingestão e organização de arquivos anexados em sistemas 
 
 Responsável por:
 
-* chamadas HTTP (UrlFetchApp)
-* parsing JSON
-* manipulação de arquivos no Drive
+* chamadas HTTP via `UrlFetchApp`
+* parsing de respostas JSON
+* manipulação de arquivos e pastas no Google Drive
 
 ---
 
@@ -47,19 +47,31 @@ Responsável por:
 
 ### 1. Deduplicação por ID
 
-Garante consistência e economia de recursos.
+Evita downloads repetidos e garante consistência dos dados.
+
+---
 
 ### 2. Organização por entidade
 
-Facilita auditoria e rastreabilidade.
+Os arquivos são agrupados por um identificador configurável, facilitando auditoria e rastreabilidade.
+
+---
 
 ### 3. Verificação pré-download
 
-Evita sobrescrita e duplicidade.
+Antes de baixar, o script verifica se o arquivo já existe no destino.
+
+---
 
 ### 4. Segurança
 
-Credenciais armazenadas via PropertiesService.
+Credenciais armazenadas via `PropertiesService`, evitando exposição no código.
+
+---
+
+### 5. Extração multinível
+
+Captura anexos tanto no nível principal do registro quanto em interações associadas (ex: comentários).
 
 ---
 
@@ -67,5 +79,5 @@ Credenciais armazenadas via PropertiesService.
 
 * Centralização de evidências
 * Redução de esforço manual
-* Escalabilidade
+* Escalabilidade operacional
 * Melhoria de governança de dados
