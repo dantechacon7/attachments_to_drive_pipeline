@@ -5,23 +5,24 @@
 ### 1. Autenticação
 
 * Geração de header Basic Auth (Base64)
-* Uso de credenciais seguras
+* Uso de credenciais armazenadas de forma segura
 
 ---
 
 ### 2. Consulta
 
 * Requisição POST para API de busca
-* Filtro por itens com anexos
+* Aplicação de query configurável (ex: JQL)
+* Retorno de registros com anexos
 
 ---
 
 ### 3. Iteração por registros
 
-Para cada item retornado:
+Para cada registro retornado:
 
-* Identifica entidade associada (campo customizado)
-* Define estrutura de pasta
+* Identifica a entidade associada (campo configurável)
+* Define dinamicamente a estrutura de pasta no Drive
 
 ---
 
@@ -29,17 +30,18 @@ Para cada item retornado:
 
 #### Nível 1: Anexos principais
 
-* Arquivos diretamente associados ao item
+* Arquivos diretamente associados ao registro
 
-#### Nível 2: Comentários
+#### Nível 2: Interações (ex: comentários)
 
-* Busca anexos dentro de comentários
+* Busca anexos adicionados durante interações
 
 ---
 
 ### 5. Deduplicação
 
 * Controle via mapa de IDs já processados
+* Garante que cada anexo seja tratado apenas uma vez
 
 ---
 
@@ -47,24 +49,24 @@ Para cada item retornado:
 
 Para cada anexo:
 
-* Verifica se já existe no Drive
-* Faz download via URL do arquivo
-* Salva como Blob na pasta correta
+* Verifica se o arquivo já existe no Drive
+* Realiza o download via URL do arquivo
+* Converte para Blob
+* Salva na pasta correspondente
 
 ---
 
 ## Resultado
 
-Estrutura organizada no Drive:
+Estrutura organizada no Google Drive:
 
-```bash
-Registro de análise/
-   ├── Entidade 1/
-   │   ├── TICKET-123_arquivo.pdf
-   │   └── TICKET-123_print.png
-   │
-   ├── Entidade 2/
-   │   └── TICKET-456_doc.xlsx
+```bash id="flow_struct"
+Registro; ID: 123456
+   ├── ISSUE-1_arquivo.pdf
+   ├── ISSUE-1_print.png
+
+Registro; ID: 789012
+   └── ISSUE-2_doc.xlsx
 ```
 
 ---
@@ -75,5 +77,7 @@ A estrutura pode ser adaptada para qualquer chave de organização:
 
 * CPF
 * ID do cliente
-* Número do ticket
+* Número do registro
 * Categoria
+
+A lógica permanece a mesma, alterando apenas o campo de referência utilizado.
