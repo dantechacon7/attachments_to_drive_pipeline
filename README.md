@@ -1,78 +1,90 @@
 # Attachments to Drive Pipeline
 
-Automação para extração de anexos de sistemas de gestão (ex: Jira) e armazenamento estruturado no Google Drive.
-
-O projeto resolve um problema comum em operações analíticas e de compliance: garantir que evidências associadas a tickets estejam organizadas, acessíveis e auditáveis fora do sistema de origem.
+Pipeline automatizado para extração de anexos de sistemas de gestão (ex: Jira) e organização estruturada no Google Drive.
 
 ---
 
 ## 📌 Problema
 
-Arquivos anexados em sistemas como Jira:
+Arquivos anexados em sistemas operacionais:
 
-* Ficam distribuídos entre tickets e comentários
+* Estão distribuídos entre registros e comentários
 * Não possuem organização centralizada
 * São difíceis de auditar em escala
-* Podem gerar duplicidade e retrabalho
+* Podem gerar duplicidade
 
 ---
 
 ## ⚙️ Solução
 
-Este projeto implementa um pipeline automatizado que:
+Este projeto automatiza:
 
-1. Busca tickets via API (usando filtros configuráveis)
-2. Identifica e consolida anexos (incluindo comentários)
-3. Organiza arquivos em pastas estruturadas
-4. Evita downloads duplicados
-5. Armazena tudo no Google Drive
+1. Busca de registros via API
+2. Coleta de anexos (incluindo comentários)
+3. Deduplicação por ID
+4. Organização em pastas no Drive
+5. Verificação de arquivos já existentes
 
 ---
 
 ## 🔁 Fluxo
 
-Sistema de Tickets → API → Apps Script → Google Drive
+Sistema → API → Apps Script → Google Drive
 
 ---
 
 ## 🧠 Principais capacidades
 
-* Extração de anexos em múltiplos níveis (ticket + comentários)
-* Organização por entidade (ex: cliente, documento, ID)
-* Deduplicação baseada em ID único do anexo
-* Verificação de arquivos já existentes
-* Armazenamento estruturado em pastas
-* Autenticação segura via propriedades do script
+* Extração multinível (registro + comentários)
+* Organização por identificador configurável
+* Deduplicação real por ID de anexo
+* Prevenção de reprocessamento
+* Estrutura de pastas dinâmica
+* Autenticação segura via PropertiesService
 
 ---
 
-## 📂 Estrutura do projeto
+## 📂 Estrutura de pastas
 
 ```bash
-apps_script/    → Script de extração e upload
-docs/           → Documentação técnica
+Registro; ID: 123456
+   ├── ISSUE-1_documento.pdf
+   ├── ISSUE-1_print.png
+
+Registro; ID: 789012
+   └── ISSUE-2_relatorio.xlsx
 ```
 
 ---
 
 ## ▶️ Como utilizar
 
-1. Configure as propriedades do script:
+Configure as propriedades do script:
 
-   * apiDomain
-   * apiUser
-   * apiToken
-   * rootFolderId
-   * customFieldId
+* apiDomain → domínio da API
+* apiUser → usuário/email
+* apiToken → token
+* rootFolderId → pasta raiz no Drive
+* entityFieldId → campo usado para organização
+* query → filtro de busca (ex: JQL do Jira)
+* folderPrefix → prefixo das pastas
 
-2. Execute a função principal no Apps Script
+Execute:
 
-3. Os arquivos serão organizados automaticamente no Drive
+```javascript
+processarAnexosParaDrive()
+```
 
 ---
 
 ## ⚠️ Observações
 
-* Compatível com qualquer sistema que exponha anexos via API REST
-* Estrutura de pastas pode ser adaptada
-* Campos customizados dependem da implementação
+* Compatível com APIs REST que retornam anexos
+* Estrutura adaptável para qualquer entidade
+* Pode ser usado para auditoria, compliance ou operações
+
+---
+
+## 🧠 Insight
+
+Este projeto transforma arquivos dispersos em sistemas operacionais em uma estrutura organizada e auditável, pronta para uso analítico e regulatório.
