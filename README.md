@@ -1,10 +1,89 @@
 # Attachments to Drive Pipeline
 
-Pipeline automatizado para extração de anexos de sistemas de gestão (ex: Jira) e organização estruturada no Google Drive.
+Automated pipeline for extracting attachments from management systems (e.g. Jira) and organizing them in a structured Google Drive hierarchy.
 
 ---
 
-## 📌 Problema
+## [EN] Overview
+
+### 📌 Problem
+
+Attachments stored in operational systems:
+
+* Are spread across records and comments
+* Lack centralized organization
+* Are difficult to audit at scale
+* May generate duplicates
+
+### ⚙️ Solution
+
+This project automates:
+
+1. Record retrieval through APIs
+2. Attachment extraction (including comments)
+3. Deduplication by attachment ID
+4. Folder organization in Google Drive
+5. Verification of previously processed files
+
+### 🔁 Workflow
+
+```
+System → API → Apps Script → Google Drive
+```
+
+### 🧠 Key Features
+
+* Multi-level extraction (records + comments)
+* Configurable folder organization
+* True deduplication by attachment ID
+* Reprocessing prevention
+* Dynamic folder structure
+* Secure authentication via PropertiesService
+
+### 📂 Folder Structure
+
+```bash
+Record; ID: 123456
+   ├── ISSUE-1_document.pdf
+   ├── ISSUE-1_screenshot.png
+
+Record; ID: 789012
+   └── ISSUE-2_report.xlsx
+```
+
+### ▶️ Usage
+
+Configure the script properties:
+
+* `apiDomain` → API domain
+* `apiUser` → username/email
+* `apiToken` → API token
+* `rootFolderId` → Drive root folder
+* `entityFieldId` → field used for organization
+* `query` → search filter (e.g. Jira JQL)
+* `folderPrefix` → folder prefix
+
+Run:
+
+```javascript
+processAttachmentsToDrive()
+```
+
+### ⚠️ Notes
+
+* Compatible with REST APIs that provide attachments
+* Adaptable to any entity structure
+* Suitable for audit, compliance and operational workflows
+
+### 💡 Insight
+
+This project transforms scattered files across operational systems into an organized and auditable structure, enabling analytical and regulatory use cases.
+
+---
+
+## [PT-BR] Visão Geral
+
+### 📌 Problema
 
 Arquivos anexados em sistemas operacionais:
 
@@ -13,9 +92,7 @@ Arquivos anexados em sistemas operacionais:
 * São difíceis de auditar em escala
 * Podem gerar duplicidade
 
----
-
-## ⚙️ Solução
+### ⚙️ Solução
 
 Este projeto automatiza:
 
@@ -25,26 +102,22 @@ Este projeto automatiza:
 4. Organização em pastas no Drive
 5. Verificação de arquivos já existentes
 
----
+### 🔁 Fluxo
 
-## 🔁 Fluxo
-
+```
 Sistema → API → Apps Script → Google Drive
+```
 
----
-
-## 🧠 Principais capacidades
+### 🧠 Principais capacidades
 
 * Extração multinível (registro + comentários)
 * Organização por identificador configurável
-* Deduplicação real por ID de anexo
+* Deduplicação por ID do anexo
 * Prevenção de reprocessamento
-* Estrutura de pastas dinâmica
+* Estrutura dinâmica de pastas
 * Autenticação segura via PropertiesService
 
----
-
-## 📂 Estrutura de pastas
+### 📂 Estrutura de pastas
 
 ```bash
 Registro; ID: 123456
@@ -55,19 +128,17 @@ Registro; ID: 789012
    └── ISSUE-2_relatorio.xlsx
 ```
 
----
-
-## ▶️ Como utilizar
+### ▶️ Como utilizar
 
 Configure as propriedades do script:
 
-* apiDomain → domínio da API
-* apiUser → usuário/email
-* apiToken → token
-* rootFolderId → pasta raiz no Drive
-* entityFieldId → campo usado para organização
-* query → filtro de busca (ex: JQL do Jira)
-* folderPrefix → prefixo das pastas
+* `apiDomain` → domínio da API
+* `apiUser` → usuário/e-mail
+* `apiToken` → token
+* `rootFolderId` → pasta raiz no Drive
+* `entityFieldId` → campo usado para organização
+* `query` → filtro de busca (ex.: JQL do Jira)
+* `folderPrefix` → prefixo das pastas
 
 Execute:
 
@@ -75,16 +146,12 @@ Execute:
 processarAnexosParaDrive()
 ```
 
----
-
-## ⚠️ Observações
+### ⚠️ Observações
 
 * Compatível com APIs REST que retornam anexos
-* Estrutura adaptável para qualquer entidade
-* Pode ser usado para auditoria, compliance ou operações
+* Adaptável para qualquer entidade
+* Pode ser utilizado para auditoria, compliance ou operações
 
----
+### 💡 Insight
 
-## 🧠 Insight
-
-Este projeto transforma arquivos dispersos em sistemas operacionais em uma estrutura organizada e auditável, pronta para uso analítico e regulatório.
+Este projeto transforma arquivos dispersos em sistemas operacionais em uma estrutura organizada e auditável, pronta para suportar análises e processos regulatórios.
